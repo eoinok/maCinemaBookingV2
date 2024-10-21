@@ -45,9 +45,12 @@ onValueChange={(itemValue) => handleChangeMovieTitle(itemValue)}>
 Also make sure that the ```selectedValue={data.movieTitle}``` inside the ```<Picker>``` component. This will now set the picker to always show the currently selected movie in the dropdown. Now when the user selects a different movie from the Dropdown, the data inisde the booking object will change at the App.js level and in the dropdown list.
 
 # Part 2
-Add the line 
+Add the following line inside the dependencies in package.json ```"expo-crypto": "~13.0.2",``` this will make the Crypto package availble to use.
+
+Then add the line 
 ```import * as Crypto from 'expo-crypto';```
 At the top of App.js to import the Crypto package from expo-crypto
+
 Add the following line of code just inside the App() function - as the first line of code in that function.
 ```var uuid = Crypto.randomUUID();//this uses the Crypto library to generate a Universal Unique Identifier```
 
