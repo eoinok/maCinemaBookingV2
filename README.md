@@ -28,8 +28,21 @@ as props when loading the ```<PersonalInfo/>``` and ```<MovieBooking/>``` compon
 To allow this data to be received by those components change the function headers in each of the files for PersonalInfo and MovieBookings inside the components folders.
 Inside the function headers for both components three arguments should now be received in the following form
 ```export default function PersonalInfo({screenstyle, data, setData})```
-This should be similar in the MovieBooking header
-
+This should be similar in the MovieBooking header. 
+Introduce the following functions into the MovieBooking component. Place it below the function header but before the return block
+```
+ function handleChangeMovieTitle(newTitle) {
+    setData(data => ({
+      ...data, // spread the previous booking properties
+      movieTitle: newTitle // update only the movieTitle
+    }));
+  };
+```
+To get this function to work when movie changes, we need to chnage the onChange event in the props of the relevant components. To do this add the following snippet of code inside the ```<Picker.....>``` component.
+```
+onValueChange={(itemValue) => handleChangeMovieTitle(itemValue)}>
+```
+Now when the user selects a different movie from the Dropdown, the data inisde the booking object will change at the App.js level.
 
 # Part 2
 Change the image at the top of the screen to something else associated with Movies. To do this, download a file (jpg or png) from the web. Save it to the assets folder and then change the reference to the file within App.js inside the IMG tag.
