@@ -33,7 +33,7 @@ Introduce the following functions into the MovieBooking component. Place it belo
 ```
  function handleChangeMovieTitle(newTitle) {
     setData(data => ({
-      ...data, // spread the previous booking properties
+      ...data, // use the spread operator to 'spread' the previous booking properties
       movieTitle: newTitle // update only the movieTitle
     }));
   };
@@ -42,7 +42,7 @@ To get this function to work when movie changes, we need to chnage the onChange 
 ```
 onValueChange={(itemValue) => handleChangeMovieTitle(itemValue)}>
 ```
-Now when the user selects a different movie from the Dropdown, the data inisde the booking object will change at the App.js level.
+Also make sure that the ```selectedValue={data.movieTitle}``` inside the ```<Picker>``` component. This will now set the picker to always show the currently selected movie in the dropdown. Now when the user selects a different movie from the Dropdown, the data inisde the booking object will change at the App.js level and in the dropdown list.
 
 # Part 2
 Add the line 
@@ -62,30 +62,37 @@ When this button is clicked, the onPress event will look to call a function call
     Alert.alert("UUID="+uuid);//use this if on phone or virtual device
   }
 ```
-Try this - click on the Save Data button, if it works, it should output a really long string of random letters and numbers - i.e. a Universal Unique Identifier.
+Try this - click on the Save Data button, if it works, it should output a really long string of random letters and numbers - i.e. a Universal Unique Identifier. Commit and push your changes for Part 2.
 
 # Part 3
+To add the AsyncStorage library to our application, add the following line t package.json
+```"@react-native-async-storage/async-storage": "1.23.1"```
+And include the following line at the top of App.js with the other import statements
+
+```import {AsyncStorage} from '@react-native-async-storage/async-storage';```
+
+Now we can use AsyncStorage to save our booking object, add the following line to the saveData function
+```
+await AsyncStorage.setItem(uuid, JSON.stringify(booking));
+```
+This saves the object in Local Async Storage using a Universal Unique Identifier as the key. The object must be "stringified" before it can be stored as Async storeage only stores text data. Note that we are using the 'await' modifier to wait until the task is complete before proceeding.
+
+# Part 4
+To retrieve the data add another button to the bottom of the screen. Copy and paste the line for the ```<TouchableOpacity>``` Save data button. Change the text on the button to "Get Data" and change the function which the onPress event calls to getData.
+Copy and paste the saveData function to a new function just below saveData() call the new function getData(). Make sure your new button works properly by adding an alert that says the "get data button was clicked".
+
+If the button works add the following try - catch block of code inside your function.
+```
+    try {
+      let thisBooking = await AsyncStorage.getItem(uuid);
+      Alert.alert(thisBooking.title);
+    }
+    catch {
+      Alert.alert("error getting data");
+    }
+```
+A try-catch block is a mechanism for catching exceptions. Exceptions are faults which can arise when relying on things outside the application itself, such as accessing a file through the Operating System. If a fault occurs the "exception handler" will catch it and issue an error message. If the code works, the movie title of the booking you saved will be sent in the Alert.
 
 
-# Part 3
-Add a Toggle Switch to the MovieBooking Component. To do this:
-- Add a new useState hook to the top of the file with the other useState hooks. Call this [balcony, setBalcony]
-- Add a Switch component to the list of components being imported from react-native at the top of the Screen
-- Pass the following props to the Switch component - ***value={balcony} onValueChange={setBalcony}*** this first ties the value of the Switch to whatever is stored in the balcony useState hook. The second make sure that whenever the toggle switch changes that the new value (true or false) is passed to the balcony state using the setBalcony hook function.
-When you get this working, commit and push your changes.
 
-# Part 4 
-Replace the hardcoded items in the dropdown picker list with values from a Json array. To do this add the following snippet of code inside the MovieBooking function but before the return statement - after the other useState hooks. 
-```
-const [movieList, setMovieList] = useState([
-   {'id': 1, "title": "Kneecap", "age": 16},
-   {'id' : 2, "title": "Joker, Folie a Deux", "age": 18}, 
-   {'id': 3, "title": "Deadpool and Wolverine", "age": 12}
-  ]);
-```
-This code sets up an array of movies, each one with it's own unique key and some information about each movie. Currently the dropdown ```<Picker></Picker>``` component has two hard coded movies in the list inside ```<Picker.Item></Picker.Item>``` tags. We need to ***replace*** these with a function which will loop through each item in our movieList array and add a new ```<Picker.Item>``` for each element in the array. The following snippet of code will loop through each element in the array.
-```
-{ movieList.map((movie) => {
-          return //add code here which will produce an appropriate <Picker.Item> tag for each movie. instead of hard coding the label and value use {movie.title}
-          })}
-```
+
