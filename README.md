@@ -45,8 +45,27 @@ onValueChange={(itemValue) => handleChangeMovieTitle(itemValue)}>
 Now when the user selects a different movie from the Dropdown, the data inisde the booking object will change at the App.js level.
 
 # Part 2
-Change the image at the top of the screen to something else associated with Movies. To do this, download a file (jpg or png) from the web. Save it to the assets folder and then change the reference to the file within App.js inside the IMG tag.
-When you get this working, commit and push your changes.
+Add the line 
+```import * as Crypto from 'expo-crypto';```
+At the top of App.js to import the Crypto package from expo-crypto
+Add the following line of code just inside the App() function - as the first line of code in that function.
+```var uuid = Crypto.randomUUID();//this uses the Crypto library to generate a Universal Unique Identifier```
+
+Add a new function in App.js called saveData - it should take no arguments. This function should be inside the App() function but before the return statement
+Add the following line of code at the bottom of your screen i.e. place it below the swiper component
+``` <TouchableOpacity style={styles.button} onPress={saveData}><Text style={{fontSize: 24, fontWeight: "bold"}}>Save Data</Text></TouchableOpacity>```
+This line uses a TouchableOpacity which can make any element behave like a button. It's a little bit more sophisticated than a button and has some additional features but in this case we will use it like a button.
+When this button is clicked, the onPress event will look to call a function called saveData(). Until we give it that function we will get an error so add the following function inside the App() function but before the render().
+```
+  async function saveData(){
+    //alert("UUID="+uuid);//use this if on web
+    Alert.alert("UUID="+uuid);//use this if on phone or virtual device
+  }
+```
+Try this - click on the Save Data button, if it works, it should output a really long string of random letters and numbers - i.e. a Universal Unique Identifier.
+
+# Part 3
+
 
 # Part 3
 Add a Toggle Switch to the MovieBooking Component. To do this:
