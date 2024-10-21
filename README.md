@@ -52,7 +52,9 @@ Then add the line
 At the top of App.js to import the Crypto package from expo-crypto
 
 Add the following line of code just inside the App() function - as the first line of code in that function.
-```var uuid = Crypto.randomUUID();//this uses the Crypto library to generate a Universal Unique Identifier```
+```
+var uuid = Crypto.randomUUID();//this uses the Crypto library to generate a Universal Unique Identifier
+```
 
 Add a new function in App.js called saveData - it should take no arguments. This function should be inside the App() function but before the return statement
 Add the following line of code at the bottom of your screen i.e. place it below the swiper component
