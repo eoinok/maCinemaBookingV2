@@ -62,10 +62,13 @@ Add the following line of code at the bottom of your screen i.e. place it below 
 This line uses a TouchableOpacity which can make any element behave like a button. It's a little bit more sophisticated than a button and has some additional features but in this case we will use it like a button.
 When this button is clicked, the onPress event will look to call a function called saveData(). Until we give it that function we will get an error so add the following function inside the App() function but before the render().
 ```
-  async function saveData(){
-    //alert("UUID="+uuid);//use this if on web
-    Alert.alert("UUID="+uuid);//use this if on phone or virtual device
-  }
+  async function saveData() {
+        const uuid = Crypto.randomUUID(); // generate it here
+        await AsyncStorage.setItem(uuid, JSON.stringify(booking));
+        alert("Saved with UUID: " + uuid);
+        Alert.alert("Saved with UUID: " + uuid);
+}
+
 ```
 Try this - click on the Save Data button, if it works, it should output a really long string of random letters and numbers - i.e. a Universal Unique Identifier. Commit and push your changes for Part 2.
 
