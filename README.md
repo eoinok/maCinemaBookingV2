@@ -74,7 +74,7 @@ To add the AsyncStorage library to our application, add the following line t pac
 ```"@react-native-async-storage/async-storage": "1.23.1"```
 And include the following line at the top of App.js with the other import statements
 
-```import {AsyncStorage} from '@react-native-async-storage/async-storage';```
+```import AsyncStorage from '@react-native-async-storage/async-storage';```
 
 Now we can use AsyncStorage to save our booking object, add the following line to the saveData function
 ```
@@ -88,13 +88,15 @@ Copy and paste the saveData function to a new function just below saveData() cal
 
 If the button works add the following try - catch block of code inside your function.
 ```
-    try {
-      let thisBooking = await AsyncStorage.getItem(uuid);
-      Alert.alert(thisBooking.title);
-    }
-    catch {
-      Alert.alert("error getting data");
-    }
+    async function getData() {
+        try {
+            let thisBooking = await AsyncStorage.getItem(uuid);
+            let parsedBooking = JSON.parse(thisBooking); // ✅ Convert from string to object
+            Alert.alert("Movie Title: " + parsedBooking.movieTitle);
+        } catch (error) {
+          Alert.alert("Error getting data: " + error.message);
+        }
+      }
 ```
 A try-catch block is a mechanism for catching exceptions. Exceptions are faults which can arise when relying on things outside the application itself, such as accessing a file through the Operating System. If a fault occurs the "exception handler" will catch it and issue an error message. If the code works, the movie title of the booking you saved will be sent in the Alert.
 
